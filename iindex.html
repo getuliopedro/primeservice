@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendário em JavaScript</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+    }
+    table {
+      width: 80%;
+      margin: 50px auto;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 15px;
+      border: 1px solid #ddd;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Calendário</h2>
+
+<table id="calendario">
+  <thead>
+    <tr>
+      <th>Domingo</th>
+      <th>Segunda</th>
+      <th>Terça</th>
+      <th>Quarta</th>
+      <th>Quinta</th>
+      <th>Sexta</th>
+      <th>Sábado</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Os dias do mês serão inseridos aqui com JavaScript -->
+  </tbody>
+</table>
+
+<script>
+  // Função para obter o número de dias em um mês
+  function diasNoMes(ano, mes) {
+    return new Date(ano, mes + 1, 0).getDate();
+  }
+
+  // Função para obter o dia da semana do primeiro dia do mês
+  function primeiroDiaSemana(ano, mes) {
+    return new Date(ano, mes, 1).getDay();
+  }
+
+  // Função para preencher o calendário com os dias do mês
+  function preencherCalendario(ano, mes) {
+    const tabela = document.getElementById('calendario').getElementsByTagName('tbody')[0];
+    tabela.innerHTML = '';
+
+    const totalDias = diasNoMes(ano, mes);
+    const primeiroDia = primeiroDiaSemana(ano, mes);
+
+    let diaAtual = 1;
+
+    for (let i = 0; i < 6; i++) {
+      const linha = tabela.insertRow();
+
+      for (let j = 0; j < 7; j++) {
+        if ((i === 0 && j < primeiroDia) || diaAtual > totalDias) {
+          // Deixe os espaços em branco no início e no final do mês
+          const celula = linha.insertCell();
+          celula.appendChild(document.createTextNode(''));
+        } else {
+          // Preencha os dias do mês
+          const celula = linha.insertCell();
+          celula.appendChild(document.createTextNode(diaAtual));
+          diaAtual++;
+        }
+      }
+    }
+  }
+
+  // Obtém a data atual
+  const dataAtual = new Date();
+  const anoAtual = dataAtual.getFullYear();
+  const mesAtual = dataAtual.getMonth();
+
+  // Preenche o calendário com o mês atual
+  preencherCalendario(anoAtual, mesAtual);
+</script>
+
+</body>
+</html>
